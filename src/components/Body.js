@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import Cards from './body/Cards';
 import Header from './body/Header';
 import Loader from './Loader';
 
@@ -48,7 +47,6 @@ const Body = () => {
                     </div>
                 </div>
                 <Header dimension={dimension} name={name} residents={residents.length} type={type}/>
-                <Cards name={name} number={location}/>
             </>}
         </>
     );
