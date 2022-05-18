@@ -2,11 +2,11 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 
-const Cards = ({resident}) => {
+const Cards = ({poblation}) => {
     const [citizen,setCitizen] = useState([])
 
     useEffect(()=>{
-        axios.get(resident)
+        axios.get(poblation)
             .then(e=>{
                 setCitizen(e?.data)
             })

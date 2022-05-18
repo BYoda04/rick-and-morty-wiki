@@ -44,7 +44,7 @@ const Body = () => {
                 </form>
                 <Title dimension={dimension} residents={residents}/>
                 <div className="cards-container">
-                    {residents?.map(resident=>(<Cards resident={resident} key={resident}/>))}
+                    {residents?.map(resident=>(<Cards poblation={resident} key={resident}/>))}
                 </div>
             </>}
         </div>
