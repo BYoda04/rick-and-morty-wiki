@@ -10,7 +10,6 @@ const Body = () => {
 
     let random = Math.floor((Math.random()*126)+1)
 
-    const [location,setLocation] = useState(random)
     const [loading,setLoading] = useState(true)
     const [id,setId] = useState("")
     const [dimension,setDimension] = useState([])
@@ -27,7 +26,7 @@ const Body = () => {
     }
 
     useEffect(()=>{
-        axios.get(`https://rickandmortyapi.com/api/location/${location}`)
+        axios.get(`https://rickandmortyapi.com/api/location/${random}`)
             .then(e=>{
                 setResidents(e.data?.residents)
                 setDimension(e.data)
