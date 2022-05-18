@@ -1,54 +1,53 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import Header from './body/Header';
+import axios from "axios";
+import { useEffect, useState } from "react";
 import Loader from './Loader';
+import Cards from "./modules/Cards";
+import Title from "./modules/Title";
+import portal from "../img/portal-gun.png";
+
 
 const Body = () => {
 
-    const randomNumber = parseInt(Math.floor(Math.random() * 126))
-    const [state,setState] = useState(true)
-    const [location,setLocation] = useState(randomNumber)
-    const [name,setName] = useState("")
-    const [type,setType] = useState("")
-    const [dimension,setDimension] = useState("")
+    let random = Math.floor((Math.random()*126)+1)
+
+    const [location,setLocation] = useState(random)
+    const [loading,setLoading] = useState(true)
+    const [id,setId] = useState("")
+    const [dimension,setDimension] = useState([])
     const [residents,setResidents] = useState([])
-    const [text,setText] = useState("")
-    const changeDimension = () => {
-        setLocation(parseInt(text))
-        setText("")
+
+    const searchDimension = (event)=>{
+        event.preventDefault()
+        axios.get(`https://rickandmortyapi.com/api/location/${id}`)
+            .then(e=>{
+                setResidents(e.data?.residents)
+                setDimension(e?.data)
+                setLoading(false)
+            })
     }
 
-    
     useEffect(()=>{
         axios.get(`https://rickandmortyapi.com/api/location/${location}`)
-        .then(r=>{
-            console.log(r.data)
-            setName(r.data.name)
-            setType(r.data.type)
-            setDimension(r.data.dimension)
-            setResidents(r.data.residents)
-            setTimeout(() => {
-                setState(false)
-            }, 1000);
-        })
-    },[location])
+            .then(e=>{
+                setResidents(e.data?.residents)
+                setDimension(e.data)
+                setLoading(false)
+            })
+    },[])
 
     return (
-        <>
-            {state? <Loader /> : <>
-                <div className="header">
-                    <div className="header-container">
-                        <div>
-                            <input type="number" value={text} onChange={e=> setText(e.target.value)}/>
-                        </div>
-                        <div>
-                            <button onClick={changeDimension}>teleport</button>
-                        </div>
-                    </div>
+        <div className="aditional">
+            {loading? <Loader /> : <>
+                <form className="header">
+                    <input type="text" onChange={e=>setId(e.target.value)} value={id}/>
+                    <button onClick={searchDimension}><img src={portal} alt="portal-pistol" /></button>
+                </form>
+                <Title dimension={dimension} residents={residents}/>
+                <div className="cards-container">
+                    {residents?.map(resident=>(<Cards resident={resident} key={resident}/>))}
                 </div>
-                <Header dimension={dimension} name={name} residents={residents.length} type={type}/>
             </>}
-        </>
+        </div>
     );
 };
 
