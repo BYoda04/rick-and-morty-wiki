@@ -10,7 +10,7 @@ const Cards = ({poblation}) => {
             .then(e=>{
                 setCitizen(e?.data)
             })
-    },[])
+    },[poblation])
     return (
         <div className="card-container">
             <div className="img-container">
